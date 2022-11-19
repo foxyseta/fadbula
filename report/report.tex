@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage[italian]{babel}
+
+\title{
+  faDBula \\
+  \textbf{\large
+      Relazione del progetto per l'insegnamento di \break
+      Basi di dati
+  }
+}
+
+\author{
+  Ilaria Volpe (\#766012),
+  Stefano Volpe (\#969766)
+}
+
+\date{
+	Alma Mater Studiorum - Universit\`a di Bologna \\
+  \today
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Analisi dei requisiti}
+
+\subsection{Requisiti espressi in linguaggio naturale}
+
+Si desidera progettare una base di dati per gli appassionati di una specifica
+produzione narrativa letteraria, cinematografica e/o televisiva. Lo scopo è
+quello di permettere una facile analisi di trame anche complesse. Si intende
+rappresentarne con codice univoco agenti, tempi, luoghi, eventi della fabula,
+nonché unità narrative (anacronie e non) dell'intreccio. Sono memorizzati nome,
+immagine descrittiva, sesso, momenti di nascita e di morte degli agenti. I
+tempi sono rappresentati da intervalli (lineari) o da fasi (di un ciclo): dei
+primi sono memorizzati l'istante di inizio e l'istante di fine mentre delle
+seconde, il cui codice è progressivo, il nome. I luoghi sono caratterizzati da
+nome e coordinate su una data mappa. Le mappe sono descritte da nome, immagine
+ed estensione. Gli eventi sono caratterizzati da veridicità, agenti coinvolti,
+luogo e intervallo. Uno o più agenti, per un dato intervallo di tempo, possono
+pensare che un evento sia avvenuto. Le unità narrative sono descritte da indice,
+titolo e intervallo narrato.
+\end{document}
