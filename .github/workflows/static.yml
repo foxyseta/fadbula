@@ -21,7 +21,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Single deploy job since we're just deploying
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Compile LaTeX document
+        uses: birjolaxew/tectonic-biber-action@master
+        with:
+          files: "report/report.tex"
+          tectonic_args: "-o docs/"
   deploy:
     environment:
       name: github-pages
@@ -36,7 +45,7 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository
-          path: 'docs/'
+          path: "docs/"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
