@@ -1,9 +1,50 @@
 \documentclass{article}
+
 \usepackage[italian]{babel}
 \usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{mfirstuc}
 \usepackage{calc}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.92,0.92,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{blue},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	keepspaces=true,
+	numbers=left,
+	numbersep=5pt,
+	showspaces=false,
+	showstringspaces=false,
+	showtabs=false,
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+
 \graphicspath{ {./images/} }
+
+\newcommand{\sqlinputlisting}[2]{
+	\lstinputlisting[language=SQL, captionpos=t, caption={#2}]{#1}
+}
+
+% File name without extension
+\newcommand{\sql}[1]{
+	\sqlinputlisting{../src/#1.sql}
+	{\texttt{#1.sql}}
+}
 
 \title{
 	faDBula \\
@@ -347,8 +388,14 @@ sono in forma normale di Boyce e Codd perché ???
 
 \subsection{Definizione dello schema}
 
+\sql{schema}
+
 \subsection{Codifica delle operazioni}
 
-\section{Testing}
+% TODO: \sql{operazione}, dove per ogni operazione.sql (non schema.sql) in src/
+
+\subsection{Testing}
+
+
 
 \end{document}
