@@ -69,8 +69,8 @@ CREATE TABLE IF NOT EXISTS "Mappa" (
 	"Codice"	INTEGER NOT NULL,
 	"Nome"	TEXT NOT NULL,
 	"Immagine"	BLOB,
-	"Larghezza"	INTEGER NOT NULL CHECK("Larghezza" >= 0),
-	"Altezza"	INTEGER NOT NULL CHECK("Altezza" >= 0),
+	"Larghezza"	INTEGER NOT NULL CHECK("Larghezza" > 0),
+	"Altezza"	INTEGER NOT NULL CHECK("Altezza" > 0),
 	PRIMARY KEY("Codice" AUTOINCREMENT)
 );
 CREATE TABLE IF NOT EXISTS "Mascheramento" (
