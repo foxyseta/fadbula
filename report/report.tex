@@ -2,7 +2,7 @@
 \usepackage[italian]{babel}
 \usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
-
+\usepackage{calc}
 \graphicspath{ {./images/} }
 
 \title{
@@ -15,10 +15,10 @@
 
 \author{
 	Ilaria Volpe (\#766012,
-	\href{mailto:stefano.volpe2@studio.unibo.it}{stefano.volpe2@studio.unibo.it}),
+	\href{mailto:ilaria.volpe2@studio.unibo.it}{ilaria.volpe2@studio.unibo.it}),
 	\\
 	Stefano Volpe (\#969766,
-	\href{mailto:ilaria.volpe2@studio.unibo.it}{ilaria.volpe2@studio.unibo.it})
+	\href{mailto:stefano.volpe2@studio.unibo.it}{stefano.volpe2@studio.unibo.it})
 }
 
 \date{
@@ -30,8 +30,9 @@
 
 \maketitle
 \thispagestyle{empty}
+\pagebreak
 \tableofcontents
-
+\pagebreak
 \section{Analisi dei requisiti}
 
 \subsection{Requisiti espressi in linguaggio naturale}
@@ -53,32 +54,38 @@ titolo e intervallo narrato.
 
 \subsection{Glossario dei termini}
 
-\begin{tabular}{ |c|c|c|c| }
-	\hline
-	\textbf{Termine} & \textbf{Descrizione}                                                            & \textbf{Sinonimi} & \textbf{Collegamenti} \\
-	\hline
-	Agente           & Personaggio o alias di un personaggio presente nella produzione narrativa       & -                 & Evento                \\
-	\hline
-	Tempo            & Periodo temporale in cui avvengono uno o più eventi                             & -                 & Evento                \\
-	\hline
-	Intervallo       & Tempo di tipo lineare                                                           & -                 & Evento                \\
-	\hline
-	Fase             & Tempo di tipo ciclico                                                           & -                 & Evento                \\
-	\hline
-	Luogo            & Luogo presente nella produzione narrativa in cui possono avvenire eventi        & -                 & Evento, Mappa         \\
-	\hline
-	Mappa            & Strumento per localizzare un luogo                                              & -                 & Luogo                 \\
-	\hline
-	Evento           & Ciò che avviene o è pensato essere avvenuto nella produzione narrativa          & -                 & Agente, Luogo, Tempo  \\
-	\hline
-	Unità narrativa  & Unità che compongono la produzione narrativa e includono parte, uno o più tempi & -                 & Tempo                 \\
-	\hline
-\end{tabular}
+\begin{center}\begin{tabular}{|p{0.2\textwidth-2\tabcolsep-1.2\arrayrulewidth}|p{0.55\textwidth-2\tabcolsep-1.2\arrayrulewidth}|p{0.22\textwidth-2\tabcolsep-1.2\arrayrulewidth}|}
+		\hline
+		\textbf{Termine} & \textbf{Descrizione}                                                                                & \textbf{Collegamenti} \\
+		\hline
+		Agente           & Personaggio o alias di un personaggio presente nella produzione narrativa                           & Evento                \\
+		\hline
+		Tempo            & Periodo temporale che occorre una o più volte nella produzione narrativa                            & Evento                \\
+		\hline
+		Intervallo       & Tempo di tipo lineare                                                                               & Evento                \\
+		\hline
+		Fase             & Tempo che ricorre una o più volte, ciclicamente                                                     & Evento                \\
+		\hline
+		Luogo            & Luogo presente nella produzione narrativa in cui possono avvenire eventi                            & Evento, Mappa         \\
+		\hline
+		Mappa            & Rappresentazione grafica in cui collocare uno o più luoghi                                          & Luogo                 \\
+		\hline
+		Evento           & Ciò che avviene o è pensato essere avvenuto nella produzione narrativa                              & Agente, Luogo, Tempo  \\
+		\hline
+		Credenza         & L'atto, da parte di uno o più agenti, di pensare che un evento sia avvenuto                         & Agente, Evento        \\
+		\hline
+		Unità narrativa  & Unità che compongono la produzione narrativa e includono parte, uno o più tempi                     & Tempo                 \\
+		\hline
+		Fabula           & Elenco degli eventi ordinati cronologicamente rispetto al momento in cui avvengono nella narrazione & Tempo, Intreccio      \\
+		\hline
+		Intreccio        & Elenco degli eventi ordinati cronologicamente rispetto al momento in cui sono narrati               & Tempo, Fabula         \\
+		\hline
+	\end{tabular}\end{center}
 
 \subsection{Strutturazione dei requisiti}
 
 \begin{itemize}
-	\item \textbf{Frasi di carattere generale:}
+	\item \textbf{Frasi di carattere generale}
 	      Si desidera progettare una base di dati per gli appassionati di una
 	      specifica produzione narrativa letteraria, cinematografica e/o
 	      televisiva. Lo scopo è quello di permettere una facile analisi di trame
@@ -101,109 +108,123 @@ titolo e intervallo narrato.
 	      intervallo. Uno o più agenti, per un dato intervallo di tempo, possono
 	      pensare che un evento sia avvenuto.
 	\item \textbf{Frasi relative alle unità narrative:}
-	      Le unità narrative sono descritte da indice, titolo e intervallo narrato.
+	      Le unità narrative sono descritte da indice, titolo e intervallo
+	      narrato.
 \end{itemize}
 
 \subsection{Specifica operazioni}
-
+Si scelgono le frequenze assumendo di tracciare una produzione narrativa
+televisiva.
 \begin{enumerate}
-	\item Inserire un nuovo agente ()
-	\item Inserire un nuovo intervallo () ???
-	\item Inserire una nuova fase () ???
-	\item Inserire un nuovo luogo ()
-	\item Inserire una nuova mappa ()
-	\item Inserire un nuovo evento()
-	\item Inserire una nuova unità narrativa ()
-	\item Visualizzare ()
-	\item Visualizzare ()
-	\item Visualizzare ()
-	\item Visualizzare ()
-	\item Visualizzare ()
-	\item Visualizzare ()
+	\item Inserire un nuovo agente (in media 8 volte al mese)
+	\item Inserire un nuovo intervallo (in media 80 volte al mese)
+	\item Inserire una nuova fase (in media 2 volte al mese)
+	\item Inserire un nuovo luogo (in media 7 volte al mese)
+	\item Inserire una nuova mappa (in media 1 volta al mese)
+	\item Inserire un nuovo evento(in media 160 volte al mese)
+	\item Inserire una nuova unità narrativa (in media 4 volte al mese)
+	\item Dato un personaggio, visualizzarne tutti gli alias (in media 8 volte al
+	      mese)
+	\item Dato un istante, visualizzare tutti gli agenti indicando se in vita o
+	      meno(in media 4 volte al mese)
+	\item Dato un luogo, visualizzare tutti quelli presenti nella stessa mappa (in
+	      media 7 volte al mese)
+	\item Dato un personaggio, visualizzare tutte le sue false credenze ordinate
+	      cronologicamente (in media 1 volta al mese)
+	\item Dato un personaggio e un evento, visualizzare eventuali intervalli di
+	      tempo in cui il primo crede che sia avvenuto il secondo (in media 4
+	      volte al mese)
+	\item Visualizzare la fabula (in media 1 volta al mese)
+	\item Visualizzare l'intreccio (in media 1 volta al mese)
 \end{enumerate}
 
 
 \section{Progettazione concettuale}
 
-\subsection{Identificazione delle entità e relazioni (bottom-up) ???}
-Sono state identificate le seguenti entità: personaggio, alias, intervallo,
+\subsection{Identificazione delle entità e relazioni (bottom-up)}
+Si identificano le seguenti entità: personaggio, alias, intervallo,
 fase, luogo, mappa, evento e unità narrativa.
-Le prime due entità sono comprese dall'entità agente, ???
+Le prime due entità sono generalizzabili nell'entità agente.
 \subsection{Un primo scheletro dello schema (top-down)}
-A un primo livello di astrazione è stato concepito un primo scheletro di schema
-concettuale:
-
-dove Chi ???, Quando ???, Dove ??? e Credenza ???
+% \begin{figure}
+%   \includegraphics[width=0.5\linewidth]{file.eps} % assumendo che file.eps sia dentro images/
+% \end{figure}
+Un primo scheletro di schema concettuale è composto da quattro entità (agente,
+intervallo, luogo, evento) e quattro relazioni. La relazione \emph{chi}
+specifica quale agente partecipi all'evento, la relazione \emph{quando}
+specifica a quale intervallo o fase appartenga l'evento, la relazione
+\emph{dove} specifica in quale luogo avvenga l'evento e la relazione
+\emph{credenza} descrive l'agente che crede all'evento per l'intervallo.
 \subsection{Sviluppo delle componenti dello scheletro (inside-out)}
 
 \subsection{Unione delle componenti nello schema finale ridotto}
 
 \subsection{Dizionario dei dati}
 
-\begin{tabular}{ |c|c|c|c| }
-	\hline
-	\textbf{Nome entità} & \textbf{Descrizione} & \textbf{Attributi} & \textbf{Identificatore} \\
-	\hline
-	cell5                & cell6                & cell7              & cell8                   \\
-	\hline
-	cell9                & cell10               & cell11             & cell12                  \\
-	\hline
-\end{tabular}
+\begin{center}\begin{tabular}{ |c|c|c|c| }
+		\hline
+		\textbf{Nome entità} & \textbf{Descrizione} & \textbf{Attributi} & \textbf{Identificatore} \\
+		\hline
+		cell5                & cell6                & cell7              & cell8                   \\
+		\hline
+		cell9                & cell10               & cell11             & cell12                  \\
+		\hline
+	\end{tabular}\end{center}
 
-\begin{tabular}{ |c|c|c|c| }
-	\hline
-	\textbf{Nome relazione} & \textbf{Descrizione} & \textbf{Entità coinvolte} & \textbf{Attributi} \\
-	\hline
-	cell5                   & cell6                & cell7                     & cell8              \\
-	\hline
-	cell9                   & cell10               & cell11                    & cell12             \\
-	\hline
-\end{tabular}
+\begin{center}\begin{tabular}{ |c|c|c|c| }
+		\hline
+		\textbf{Nome relazione} & \textbf{Descrizione} & \textbf{Entità coinvolte} & \textbf{Attributi} \\
+		\hline
+		cell5                   & cell6                & cell7                     & cell8              \\
+		\hline
+		cell9                   & cell10               & cell11                    & cell12             \\
+		\hline
+	\end{tabular}\end{center}
+
 
 \subsection{Regole}
-
-\begin{tabular}{ |c| }
-	\hline
-	\textbf{Regole di vincolo}     \\
-	\hline
-	cell5                          \\
-	\hline
-	cell9                          \\
-	\hline
-	\textbf{Regole di derivazione} \\
-	\hline
-	cell5                          \\
-	\hline
-	cell9                          \\
-	\hline
-\end{tabular}
+\begin{center}\begin{tabular}{ |c| }
+		\hline
+		\textbf{Regole di vincolo}     \\
+		\hline
+		cell5                          \\
+		\hline
+		cell9                          \\
+		\hline
+		\textbf{Regole di derivazione} \\
+		\hline
+		cell5                          \\
+		\hline
+		cell9                          \\
+		\hline
+	\end{tabular}\end{center}
 
 \section{Progettazione logica}
 
 \subsection{Tavole dei volumi e delle operazioni}
-\textbf{Tavola dei volumi:}
+\subsubsection{Tavola dei volumi}
 
-\begin{tabular}{ |c|c|c| }
-	\hline
-	\textbf{Concetto} & \textbf{Tipo} & \textbf{Volume} \\
-	\hline
-	cell5             & cell6         & cell7           \\
-	\hline
-	cell9             & cell10        & cell11          \\
-	\hline
-\end{tabular}
+\begin{center}\begin{tabular}{ |c|c|c| }
+		\hline
+		\textbf{Concetto} & \textbf{Tipo} & \textbf{Volume} \\
+		\hline
+		cell5             & cell6         & cell7           \\
+		\hline
+		cell9             & cell10        & cell11          \\
+		\hline
+	\end{tabular}\end{center}
 
-\textbf{Tavola delle operazioni:}
+\subsubsection{Tavola delle operazioni}
 
-\begin{tabular}{ |c|c| }
-	\hline
-	\textbf{Operazione} & \textbf{Frequenza} \\
-	\hline
-	cell5               & cell6              \\
-	\hline
-	cell9               & cell10             \\
-	\hline
-\end{tabular}
+\begin{center}\begin{tabular}{ |c|c| }
+		\hline
+		\textbf{Operazione} & \textbf{Frequenza} \\
+		\hline
+		cell5               & cell6              \\
+		\hline
+		cell9               & cell10             \\
+		\hline
+	\end{tabular}\end{center}
 
 \subsection{Ristrutturazione dello schema concettuale}
 
@@ -211,39 +232,39 @@ dove Chi ???, Quando ???, Dove ??? e Credenza ???
 Analizzando lo schema concettuale si nota che tutte le associazioni presenti
 sono in forma normale di Boyce e Codd perché ???
 
-\textbf{Entità:}
+\subsubsection{Entità}
 
-\begin{tabular}{ |c|c| }
-	\hline
-	\textbf{Nome entità} & \textbf{Commento} \\
-	\hline
-	cell5                & cell6             \\
-	\hline
-	cell9                & cell10            \\
-	\hline
-\end{tabular}
+\begin{center}\begin{tabular}{ |c|c| }
+		\hline
+		\textbf{Nome entità} & \textbf{Commento} \\
+		\hline
+		cell5                & cell6             \\
+		\hline
+		cell9                & cell10            \\
+		\hline
+	\end{tabular}\end{center}
 
 \subsection{Traduzione verso il modello relazionale}
 
-\begin{tabular}{ |c|c| }
-	\hline
-	\textbf{Entità-Relazione} & \textbf{Traduzione} \\
-	\hline
-	cell5                     & cell6               \\
-	\hline
-	cell9                     & cell10              \\
-	\hline
-\end{tabular}
+\begin{center}\begin{tabular}{ |c|c| }
+		\hline
+		\textbf{Entità-Relazione} & \textbf{Traduzione} \\
+		\hline
+		cell5                     & cell6               \\
+		\hline
+		cell9                     & cell10              \\
+		\hline
+	\end{tabular}\end{center}
 
-\begin{tabular}{ |c|c| }
-	\hline
-	\textbf{Traduzione} & \textbf{Vincoli di riferimento} \\
-	\hline
-	cell5               & cell6                           \\
-	\hline
-	cell9               & cell10                          \\
-	\hline
-\end{tabular}
+\begin{center}\begin{tabular}{ |c|c| }
+		\hline
+		\textbf{Traduzione} & \textbf{Vincoli di riferimento} \\
+		\hline
+		cell5               & cell6                           \\
+		\hline
+		cell9               & cell10                          \\
+		\hline
+	\end{tabular}\end{center}
 
 
 \section{Codifica SQL}
