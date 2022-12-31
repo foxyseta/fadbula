@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS "Dove" (
 CREATE TABLE IF NOT EXISTS "Evento" (
 	"Codice"	INTEGER NOT NULL,
 	"Nome"	TEXT NOT NULL,
-	"Veridicità"	INTEGER NOT NULL CHECK("Veridicità" IN (0, 1)),
+	"Veridicita"	INTEGER NOT NULL CHECK("Veridicita" IN (0, 1)),
 	PRIMARY KEY("Codice" AUTOINCREMENT)
 );
 CREATE TABLE IF NOT EXISTS "Fase" (
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS "Quando" (
 	FOREIGN KEY("IstanteInizio") REFERENCES "Intervallo"("IstanteInizio") ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY("IstanteFine") REFERENCES "Intervallo"("IstanteFine") ON DELETE CASCADE ON UPDATE CASCADE
 );
-CREATE TABLE IF NOT EXISTS "UnitàNarrativa" (
+CREATE TABLE IF NOT EXISTS "UnitaNarrativa" (
 	"Indice"	TEXT NOT NULL CHECK("Indice" REGEXP "\d+(\.\d+)*"),
 	"Nome"	TEXT NOT NULL,
 	"IstanteInizio"	TEXT NOT NULL CHECK("IstanteInizio" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'),
