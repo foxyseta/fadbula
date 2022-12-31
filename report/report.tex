@@ -6,6 +6,7 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{mfirstuc}
+\usepackage{calc}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -33,7 +34,6 @@
 
 \lstset{style=mystyle}
 
-\usepackage{calc}
 \graphicspath{ {./images/} }
 
 \newcommand{\sqlinputlisting}[2]{
@@ -115,7 +115,7 @@ titolo e intervallo narrato.
 		\hline
 		Credenza         & L'atto, da parte di uno o più agenti, di pensare che un evento sia avvenuto                         & Agente, Evento        \\
 		\hline
-		Unità narrativa  & Unità che compongono la produzione narrativa e includono parte, uno o più tempi                     & Tempo                 \\
+		Unità narrativa  & Elemento della produzione narrativa che include parte, uno o più tempi                              & Tempo                 \\
 		\hline
 		Fabula           & Elenco degli eventi ordinati cronologicamente rispetto al momento in cui avvengono nella narrazione & Tempo, Intreccio      \\
 		\hline
@@ -155,7 +155,7 @@ titolo e intervallo narrato.
 
 \subsection{Specifica operazioni}
 Si scelgono le frequenze assumendo di tracciare una produzione narrativa
-televisiva.
+televisiva composta da 4 stagioni da 12 episodi l'una.
 \begin{enumerate}
 	\item Inserire un nuovo agente (in media 8 volte al mese)
 	\item Inserire un nuovo intervallo (in media 80 volte al mese)
@@ -202,41 +202,77 @@ specifica a quale intervallo o fase appartenga l'evento, la relazione
 
 \subsection{Dizionario dei dati}
 
-\begin{center}\begin{tabular}{ |c|c|c|c| }
+\begin{center}\begin{tabular}{|p{0.2\textwidth-2\tabcolsep-1.2\arrayrulewidth}|p{0.4\textwidth-2\tabcolsep-1.2\arrayrulewidth}|p{0.2\textwidth-2\tabcolsep-1.2\arrayrulewidth}|p{0.2\textwidth-2\tabcolsep-1.2\arrayrulewidth}|}
 		\hline
-		\textbf{Nome entità} & \textbf{Descrizione} & \textbf{Attributi} & \textbf{Identificatore} \\
+		\textbf{Nome entità} & \textbf{Descrizione}                                                               & \textbf{Attributi}                                                                                               & \textbf{Identificatore}                                     \\
 		\hline
-		cell5                & cell6                & cell7              & cell8                   \\
+		Agente               & Personaggio o alias di un personaggio presente nella produzione narrativa          & Nome (stringa), Immagine (blob), Sesso (stringa), Istante di nascita (data e ora), Istante di morte (data e ora) & Codice (intero)                                             \\
 		\hline
-		cell9                & cell10               & cell11             & cell12                  \\
+		Personaggio          & Personaggio presente nella produzione narrativa                                    & `` ''                                                                                                            & `` ''                                                       \\
+		\hline
+		Alias                & Alias di un personaggio presente nella produzione narrativa                        & `` ''                                                                                                            & `` ''                                                       \\
+		\hline
+		Intervallo           & Periodo temporale che occorre una volta nella produzione narrativa                 & Nome (stringa)                                                                                                   & Istante di inzio (data e ora), Istante di fine (data e ora) \\
+		\hline
+		Fase                 & Periodo temporale che occorre più volte ciclicamente nella produzione narrativa    & Nome (stringa)                                                                                                   & Indice (intero)                                             \\
+		\hline
+		Unità narrativa      & Elemento della produzione narrativa che include parte, uno o più periodi temporali & Titolo (stringa)                                                                                                 & Indice (intero)                                             \\
+		\hline
+		Luogo                & Luogo presente nella produzione narrativa                                          & Nome (stringa)                                                                                                   & X (reale), Y (reale), Mappa (entità in relazione)           \\
+		\hline
+		Mappa                & Rappresentazione grafica di uno o più luoghi presenti nella produzione narrativa   & Nome (stringa), Immagine (blob), Larghezza (reale), Altezza (reale)                                              & Codice (intero)                                             \\
+		\hline
+		Evento               & Ciò che avviene o è pensato essere avvenuto nella produzione narrativa             & Nome (stringa), Veridicità (booleano)                                                                            & Codice (intero)                                             \\
 		\hline
 	\end{tabular}\end{center}
 
-\begin{center}\begin{tabular}{ |c|c|c|c| }
+\begin{center}\begin{tabular}{|p{0.3\textwidth-2\tabcolsep-1.2\arrayrulewidth}|p{0.2\textwidth-2\tabcolsep-1.2\arrayrulewidth}|p{0.3\textwidth-2\tabcolsep-1.2\arrayrulewidth}|p{0.2\textwidth-2\tabcolsep-1.2\arrayrulewidth}|}
 		\hline
-		\textbf{Nome relazione} & \textbf{Descrizione} & \textbf{Entità coinvolte} & \textbf{Attributi} \\
+		\textbf{Nome relazione} & \textbf{Descrizione}                                                    & \textbf{Entità coinvolte}   & \textbf{Attributi}  \\
 		\hline
-		cell5                   & cell6                & cell7                     & cell8              \\
+		Mascheramento           & Associa a ogni alias uno o più personaggi                               & Personaggio, Alias          & -                   \\
 		\hline
-		cell9                   & cell10               & cell11                    & cell12             \\
+		Chi                     & Può associare eventi e agenti che vi partecipano                        & Agente, Evento              & -                   \\
+		\hline
+		Inclusione temporale    & Può associare fasi e intervalli che vi appartengono                     & Intervallo, Fase            & Iterazione (intero) \\
+		\hline
+		Narrazione              & Associa a ogni intervallo una o più unità narrative                     & Intervallo, Unità narrativa & -                   \\
+		\hline
+		Quando                  & Associa a ogni evento uno o più intervalli                              & Intervallo, Evento          & -                   \\
+		\hline
+		Collocazione            & Associa a ogni luogo una mappa                                          & Luogo, Mappa                & -                   \\
+		\hline
+		Dove                    & Associa a ogni evento uno o più luoghi                                  & Luogo, Evento               & -                   \\
+		\hline
+		Credenza                & Può associare eventi e agenti che vi credono per un intervallo di tempo & Agente, Intervallo, Evento  & -                   \\
 		\hline
 	\end{tabular}\end{center}
 
 
 \subsection{Regole}
-\begin{center}\begin{tabular}{ |c| }
+\begin{center}\begin{tabular}{ |l| }
 		\hline
-		\textbf{Regole di vincolo}     \\
+		\textbf{Regole di vincolo}                                                          \\
 		\hline
-		cell5                          \\
+		$ RV1: Agente.Sesso = M \lor Agente.Sesso = F $                                     \\
 		\hline
-		cell9                          \\
+		$RV2: Fase.Indice \geq 1 $                                                          \\
 		\hline
-		\textbf{Regole di derivazione} \\
+		$RV3: InclusioneTemporale.Iterazione \geq 1 $                                       \\
 		\hline
-		cell5                          \\
+		$RV4: 0 \leq Luogo.X \leq 1 $                                                       \\
 		\hline
-		cell9                          \\
+		$RV5: 0 \leq Luogo.Y \leq 1 $                                                       \\
+		\hline
+		$RV6: Mappa.Larghezza > 1 $                                                         \\
+		\hline
+		$RV7: Mappa.Altezza > 1 $                                                           \\
+		\hline
+		$RV8:$ UnitàNarrativa.Indice rispetta l'espressione regolare \verb|\d+(\.\d+)*| \\
+		\hline
+		\textbf{Regole di derivazione}                                                      \\
+		\hline
+		$RD1: InVita:  = Agente.IstanteDiNascita \leq Istante \leq Agente.IstanteDiMorte$   \\
 		\hline
 	\end{tabular}\end{center}
 
@@ -244,26 +280,66 @@ specifica a quale intervallo o fase appartenga l'evento, la relazione
 
 \subsection{Tavole dei volumi e delle operazioni}
 \subsubsection{Tavola dei volumi}
-
+Si scelgono i volumi assumendo di tracciare una produzione narrativa
+televisiva composta da 4 stagioni da 12 episodi l'una.
 \begin{center}\begin{tabular}{ |c|c|c| }
 		\hline
 		\textbf{Concetto} & \textbf{Tipo} & \textbf{Volume} \\
 		\hline
-		cell5             & cell6         & cell7           \\
+		Agente            & E             & 96              \\
 		\hline
-		cell9             & cell10        & cell11          \\
+		Personaggio       & E             & 48              \\
+		\hline
+		Alias             & E             & 48              \\
+		\hline
+		Intervallo        & E             & 960             \\
+		\hline
+		Fase              & E             & 24              \\
+		\hline
+		Unità narrativa   & E             & 48              \\
+		\hline
+		Luogo             & E             & 84              \\
+		\hline
+		Mappa             & E             & 12              \\
+		\hline
+		Evento            & E             & 1920            \\
 		\hline
 	\end{tabular}\end{center}
 
 \subsubsection{Tavola delle operazioni}
-
+Si scelgono i volumi assumendo di tracciare una produzione narrativa
+televisiva composta da 4 stagioni da 12 episodi l'una.
 \begin{center}\begin{tabular}{ |c|c| }
 		\hline
 		\textbf{Operazione} & \textbf{Frequenza} \\
 		\hline
-		cell5               & cell6              \\
+		1                   & 8 volte al mese    \\
 		\hline
-		cell9               & cell10             \\
+		2                   & 80 volte al mese   \\
+		\hline
+		3                   & 2 volte al mese    \\
+		\hline
+		4                   & 7 volte al mese    \\
+		\hline
+		5                   & 1 volta al mese    \\
+		\hline
+		6                   & 160 volte al mese  \\
+		\hline
+		7                   & 4 volte al mese    \\
+		\hline
+		8                   & 8 volte al mese    \\
+		\hline
+		9                   & 4 volte al mese    \\
+		\hline
+		10                  & 7 volte al mese    \\
+		\hline
+		11                  & 1 volta al mese    \\
+		\hline
+		12                  & 4 volte al mese    \\
+		\hline
+		13                  & 1 volta al mese    \\
+		\hline
+		14                  & 1 volta al mese    \\
 		\hline
 	\end{tabular}\end{center}
 
@@ -312,9 +388,15 @@ sono in forma normale di Boyce e Codd perché ???
 
 \subsection{Definizione dello schema}
 
+\sql{schema}
+
 \subsection{Codifica delle operazioni}
 
-\section{Testing}
+% TODO: \sql{operazione}, dove per ogni operazione.sql (non schema.sql) in src/
+
+\subsection{Testing}
+
+
 
 \section{Codifica SQL}
 
