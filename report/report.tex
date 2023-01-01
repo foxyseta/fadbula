@@ -350,16 +350,15 @@ televisiva composta da 4 stagioni da 12 episodi l'una.
 Il nostro modello attuale chiaramente non prevede ridondanze dovute ad attributi
 derivabili: l'unica regola di derivazione che abbiamo definito computa
 un'informazione non memorizzata nella base di dati, e nessun attributo memorizza
-neanche informazioni calcolabili dal corpo di alcuna tabella (come conteggi o
-risultati di altre funzioni di aggregazione). Anche se alcune chiavi primarie
-contenenti informazioni significative di fatto sono ripetute in altre tabelle
-come chiavi esterne, il loro uso è comunque preferibile all'adozione di altri
-codici identificativi arbitrari. Inoltre, non sono previste relazioni derivabili
-dalla commposizione di altre relazioni: infatti, nessun ciclo del diagramma
-permette di raggiungere un'entità a partire da un'altra tramite più percorsi
-distinti senza differenze semantiche. Ne concludiamo quindi che non sono
-presenti ridondanze di alcun tipo, e che non sono quindi necessarie tavole degli
-accessi.
+dati calcolabili dal corpo di alcuna tabella (come conteggi o risultati di altre
+funzioni di aggregazione). Anche se alcune chiavi primarie contenenti
+informazioni significative di fatto sono ripetute in altre tabelle come chiavi
+esterne, il loro uso è comunque preferibile all'adozione di altri codici
+identificativi arbitrari. Inoltre, non sono previste relazioni derivabili dalla
+commposizione di altre relazioni: infatti, nessun ciclo del diagramma permette
+di raggiungere un'entità a partire da un'altra tramite più percorsi distinti
+senza differenze semantiche. Ne concludiamo quindi che non sono presenti
+ridondanze di alcun tipo, e che non sono quindi necessarie tavole degli accessi.
 
 Rimane da chiedersi se sia opportuno aggiungere nuove ridondanze al fine di
 migliorare le operazioni di alcune operazioni tramite risultati precalcolati.
@@ -369,24 +368,44 @@ operazioni è richesto il calcolo di un conteggio, o il confronto con un massimo
 Non porterebbe quindi ad alcun beneficio aggiungere singoli attributi
 ridondanti. Aggiungere delle relazioni aggiuntive potrebbe invece velocizzare
 le operazioni 13 e 14, che sono le uniche a richiedere una composizione di
-relazioni per essere elaborate. Anche senza tavole degli accessi, però, la bassa
-frequenza con cui queste operazioni complesse sono invocate scoraggia dal
-voler adottare un qualsiasi meccanismo di memoizzazione. Inoltre, la dimensione
-dei risultati memorizzati potrebbe risultare eccessiva.
+relazioni per essere elaborate. Essendo queste operazioni non parametriche,
+però, ristrutturare il modello diventa superfluo: la stragrande maggioranza dei
+DBMS attuali può direttamente fare uso di viste in sola lettura.
 
 \subsubsection{Eliminazione delle gerarchie}
 
-L'unica gerarchia presente nel modello è la generalizzazione di "Agente" come
-genitore di "Personaggio" e "Alias". Dal momento che nessuna delle operazioni fa
+L'unica gerarchia presente nel modello è la generalizzazione di ``Agente'' come
+genitore di ``Personaggio'' e ``Alias''. Dal momento che nessuna delle operazioni fa
 riferimento esplicito a una particolare istanziazione, a esse si fa sempre
 accesso contemporaneamente, e abbiamo quindi deciso di incorporare i figli nel
-genitore tramite l'aggiunta di un attributo "Tipo" di tipo enumerativo. L'unica
-relazione a distinguere fra queste istanziazioni era "Mascheramento". Si rende
+genitore tramite l'aggiunta di un attributo ``Tipo'' di tipo enumerativo. L'unica
+relazione a distinguere fra queste istanziazioni era ``Mascheramento''. Si rende
 quindi necessario aggiungere due regole di vincolo che implementino un vero e
-proprio "controllo di tipo":
+proprio ``controllo di tipo'':
 
-$RV8: Mascheramento.Personaggio.Tipo = Tipo.Personaggio $
-$RV9: Mascheramento.Alias.Tipo = Tipo.Alias $
+\begin{math}
+	RV8: Mascheramento.Personaggio.Tipo = Tipo.Personaggio
+\end{math}
+
+\begin{math}
+	RV10: Mascheramento.Alias.Tipo = Tipo.Alias
+\end{math}
+
+\subsubsection{Partizionamenti e accorpamenti di entità e relazioni}
+
+Allo stato attuale del modello, gli attributi a cui viene fatto accesso
+separatamente appartengono già a entità distinte. Allo stesso modo, gli
+attributi a cui viene fatto accesso contemporaneamente appartengono già alla
+stessa entità. Per questi motivi, non abbiamo operato ulteriori partizionamenti
+o accorpamenti.
+
+
+\subsubsection{Identificazione delle chiavi primarie}
+
+In fase di progettazione concettuale avevamo già adottato l'aggiunta di
+opportuni attributi ``Codice'' qualora mancassero altri candidati a chiavi
+primarie ``ragionevoli''. Questa tecnica è da considerarsi un mero ripiego di cui
+non abusare.
 
 \subsection{Normalizzazione}
 Analizzando lo schema concettuale si nota che tutte le associazioni presenti
