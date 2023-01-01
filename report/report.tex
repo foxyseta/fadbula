@@ -49,6 +49,8 @@
 
 % File name without extension
 \newcommand{\csv}[1]{
+	\subsubsection{#1}
+
 	\begin{center}
 		\tiny
 		\csvautotabular[head to column names]{../data/#1.csv}
@@ -486,6 +488,8 @@ non sono supportati, e quindi non sono stati inclusi.
 \sql{operation-01}
 \sql{operation-02}
 \sql{operation-03}
+\sql{operation-04}
+\sql{operation-05}
 
 \section{Testing}
 
@@ -494,17 +498,18 @@ seguente stato.
 
 \subsection{Tabelle}
 
-\subsubsection{Agente}
-
-\csv{agente}
-
-\subsubsection{Fase}
-
-\csv{fase}
-
-\subsubsection{Intervallo}
-
-\csv{intervallo}
+\csv{Agente}
+\csv{Chi}
+\csv{Credenza}
+\csv{Dove}
+\csv{Evento}
+\csv{Fase}
+\csv{Intervallo}
+\csv{Luogo}
+\csv{Mappa}
+\csv{Mascheramento}
+\csv{Quando}
+\csv{UnitaNarrativa}
 
 \subsection{Interrogazioni}
 
