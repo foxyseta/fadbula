@@ -95,6 +95,9 @@ titolo e intervallo narrato.
 
 \subsection{Glossario dei termini}
 
+Data la specificità del gerco in questione, non sono stati individuati sinonimi
+nei requisiti espressi in linguaggio naturale.
+
 \begin{center}\begin{tabular}{|p{0.2\textwidth-2\tabcolsep-1.2\arrayrulewidth}|p{0.55\textwidth-2\tabcolsep-1.2\arrayrulewidth}|p{0.22\textwidth-2\tabcolsep-1.2\arrayrulewidth}|}
 		\hline
 		\textbf{Termine} & \textbf{Descrizione}                                                                                & \textbf{Collegamenti} \\
@@ -162,17 +165,17 @@ televisiva composta da 4 stagioni da 12 episodi l'una.
 	\item Inserire una nuova fase (in media 2 volte al mese)
 	\item Inserire un nuovo luogo (in media 7 volte al mese)
 	\item Inserire una nuova mappa (in media 1 volta al mese)
-	\item Inserire un nuovo evento(in media 160 volte al mese)
+	\item Inserire un nuovo evento (in media 160 volte al mese)
 	\item Inserire una nuova unità narrativa (in media 4 volte al mese)
-	\item Dato un personaggio, visualizzarne tutti gli alias (in media 8 volte al
+	\item Dato un agente, visualizzarne tutti gli alias (in media 8 volte al
 	      mese)
 	\item Dato un istante, visualizzare tutti gli agenti indicando se in vita o
-	      meno(in media 4 volte al mese)
+	      meno (in media 4 volte al mese)
 	\item Dato un luogo, visualizzare tutti quelli presenti nella stessa mappa (in
 	      media 7 volte al mese)
-	\item Dato un personaggio, visualizzare tutte le sue false credenze ordinate
+	\item Dato un agente, visualizzare tutte le sue false credenze ordinate
 	      cronologicamente (in media 1 volta al mese)
-	\item Dato un personaggio e un evento, visualizzare eventuali intervalli di
+	\item Dato un agente e un evento, visualizzare eventuali intervalli di
 	      tempo in cui il primo crede che sia avvenuto il secondo (in media 4
 	      volte al mese)
 	\item Visualizzare la fabula (in media 1 volta al mese)
@@ -262,7 +265,7 @@ specifica a quale intervallo o fase appartenga l'evento, la relazione
 	\end{tabular}\end{center}
 
 
-\subsection{Regole}
+\subsection{Regole aziendali}
 \begin{center}\begin{tabular}{ |l| }
 		\hline
 		\textbf{Regole di vincolo}                                                          \\
@@ -292,9 +295,12 @@ specifica a quale intervallo o fase appartenga l'evento, la relazione
 \section{Progettazione logica}
 
 \subsection{Tavole dei volumi e delle operazioni}
-\subsubsection{Tavola dei volumi}
+
 Si scelgono i volumi assumendo di tracciare una produzione narrativa
 televisiva composta da 4 stagioni da 12 episodi l'una.
+
+\subsubsection{Tavola dei volumi}
+
 \begin{center}\begin{tabular}{ |c|c|c| }
 		\hline
 		\textbf{Concetto} & \textbf{Tipo} & \textbf{Volume} \\
@@ -320,8 +326,7 @@ televisiva composta da 4 stagioni da 12 episodi l'una.
 	\end{tabular}\end{center}
 
 \subsubsection{Tavola delle operazioni}
-Si scelgono i volumi assumendo di tracciare una produzione narrativa
-televisiva composta da 4 stagioni da 12 episodi l'una.
+
 \begin{center}\begin{tabular}{ |c|c| }
 		\hline
 		\textbf{Operazione} & \textbf{Frequenza} \\
@@ -358,21 +363,84 @@ televisiva composta da 4 stagioni da 12 episodi l'una.
 
 \subsection{Ristrutturazione dello schema concettuale}
 
+\subsubsection{Eliminazione delle ridondanze}
+
+Il nostro modello attuale chiaramente non prevede ridondanze dovute ad attributi
+derivabili: l'unica regola di derivazione che abbiamo definito computa
+un'informazione non memorizzata nella base di dati, e nessun attributo memorizza
+dati calcolabili dal corpo di alcuna tabella (come conteggi o risultati di altre
+funzioni di aggregazione). Anche se alcune chiavi primarie contenenti
+informazioni significative di fatto sono ripetute in altre tabelle come chiavi
+esterne, il loro uso è comunque preferibile all'adozione di altri codici
+identificativi arbitrari. Inoltre, non sono previste relazioni derivabili dalla
+commposizione di altre relazioni: infatti, nessun ciclo del diagramma permette
+di raggiungere un'entità a partire da un'altra tramite più percorsi distinti
+senza differenze semantiche. Ne concludiamo quindi che non sono presenti
+ridondanze di alcun tipo, e che non sono quindi necessarie tavole degli accessi.
+
+Rimane da chiedersi se sia opportuno aggiungere nuove ridondanze al fine di
+migliorare le operazioni di alcune operazioni tramite risultati precalcolati.
+Nessuna delle operazioni specificate sopra richiede risultati (intermedi o
+finali) specificabili in un unico attributo. Per esempio, per nessuna delle
+operazioni è richesto il calcolo di un conteggio, o il confronto con un massimo.
+Non porterebbe quindi ad alcun beneficio aggiungere singoli attributi
+ridondanti. Aggiungere delle relazioni aggiuntive potrebbe invece velocizzare
+le operazioni 13 e 14, che sono le uniche a richiedere una composizione di
+relazioni per essere elaborate. Essendo queste operazioni non parametriche,
+però, ristrutturare il modello diventa superfluo: la stragrande maggioranza dei
+DBMS attuali può direttamente fare uso di viste in sola lettura.
+
+\subsubsection{Eliminazione delle gerarchie}
+
+L'unica gerarchia presente nel modello è la generalizzazione di ``Agente'' come
+genitore di ``Personaggio'' e ``Alias''. Dal momento che nessuna delle operazioni fa
+riferimento esplicito a una particolare istanziazione, a esse si fa sempre
+accesso contemporaneamente, e abbiamo quindi deciso di incorporare i figli nel
+genitore tramite l'aggiunta di un attributo ``Tipo'' di tipo enumerativo.
+
+% TODO: aggiungi diagramma ER gerarchia eliminata e attributo Tipo
+
+L'unica
+relazione a distinguere fra queste istanziazioni era ``Mascheramento''. Si rende
+quindi necessario aggiungere due regole di vincolo che implementino un vero e
+proprio ``controllo di tipo'':
+
+\begin{math}
+	RV8: Mascheramento.Personaggio.Tipo = Tipo.Personaggio
+\end{math}
+
+\begin{math}
+	RV10: Mascheramento.Alias.Tipo = Tipo.Alias
+\end{math}
+
+\subsubsection{Partizionamenti e accorpamenti di entità e relazioni}
+
+Allo stato attuale del modello, gli attributi a cui viene fatto accesso
+separatamente appartengono già a entità distinte. Allo stesso modo, gli
+attributi a cui viene fatto accesso contemporaneamente appartengono già alla
+stessa entità. Per questi motivi, non abbiamo operato ulteriori partizionamenti
+o accorpamenti.
+
+
+\subsubsection{Identificazione delle chiavi primarie}
+
+In fase di progettazione concettuale avevamo già adottato l'aggiunta di
+opportuni attributi ``Codice'' qualora mancassero altri candidati a chiavi
+primarie ``ragionevoli''. Questa tecnica è da considerarsi un mero ripiego di cui
+non abusare.
+
 \subsection{Normalizzazione}
-Analizzando lo schema concettuale si nota che tutte le associazioni presenti
-sono in forma normale di Boyce e Codd perché ???
 
 \subsubsection{Entità}
 
-\begin{center}\begin{tabular}{ |c|c| }
-		\hline
-		\textbf{Nome entità} & \textbf{Commento} \\
-		\hline
-		cell5                & cell6             \\
-		\hline
-		cell9                & cell10            \\
-		\hline
-	\end{tabular}\end{center}
+Nessuna entità presenta dipendenza non banali tra i propri attributi, e quindi
+tutte le entità sono necessariamente in forma normale di Boyce e Codd.
+
+\subsubsection{Relazioni}
+
+Oltre alle associazioni binarie, che sono necessariamente in forma normale di
+Boyce e Codd, il modello include una singola relazione ternaria, che però non
+presenta dipendenze non banali fra gli attributi.
 
 \subsection{Traduzione verso il modello relazionale}
 
