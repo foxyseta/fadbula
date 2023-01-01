@@ -7,6 +7,7 @@
 \usepackage{xcolor}
 \usepackage{mfirstuc}
 \usepackage{calc}
+\usepackage{csvsimple}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -44,6 +45,16 @@
 \newcommand{\sql}[1]{
 	\sqlinputlisting{../src/#1.sql}
 	{\texttt{#1.sql}}
+}
+
+% File name without extension
+\newcommand{\csv}[1]{
+	\subsubsection{#1}
+
+	\begin{center}
+		\tiny
+		\csvautotabular[head to column names]{../data/#1.csv}
+	\end{center}
 }
 
 \title{
@@ -160,13 +171,13 @@ nei requisiti espressi in linguaggio naturale.
 Si scelgono le frequenze assumendo di tracciare una produzione narrativa
 televisiva composta da 4 stagioni da 12 episodi l'una.
 \begin{enumerate}
-	\item Inserire un nuovo agente (in media 8 volte al mese)
-	\item Inserire un nuovo intervallo (in media 80 volte al mese)
-	\item Inserire una nuova fase (in media 2 volte al mese)
-	\item Inserire un nuovo luogo (in media 7 volte al mese)
-	\item Inserire una nuova mappa (in media 1 volta al mese)
-	\item Inserire un nuovo evento (in media 160 volte al mese)
-	\item Inserire una nuova unità narrativa (in media 4 volte al mese)
+	\item Inserire nuovi agenti (in media 8 volte al mese)
+	\item Inserire nuove fasi (in media 2 volte al mese)
+	\item Inserire nuovi intervalli (in media 80 volte al mese)
+	\item Inserire nuove mappe (in media 1 volta al mese)
+	\item Inserire nuovi luoghi (in media 7 volte al mese)
+	\item Inserire nuovi eventi (in media 160 volte al mese)
+	\item Inserire nuove unità narrative (in media 4 volte al mese)
 	\item Dato un agente, visualizzarne tutti gli alias (in media 8 volte al
 	      mese)
 	\item Dato un istante, visualizzare tutti gli agenti indicando se in vita o
@@ -219,7 +230,7 @@ specifica a quale intervallo o fase appartenga l'evento, la relazione
 		\hline
 		Fase                 & Periodo temporale che occorre più volte ciclicamente nella produzione narrativa    & Nome (stringa)                                                                                                   & Indice (intero)                                             \\
 		\hline
-		Unità narrativa      & Elemento della produzione narrativa che include parte, uno o più periodi temporali & Titolo (stringa)                                                                                                 & Indice (intero)                                             \\
+		Unità narrativa      & Elemento della produzione narrativa che include parte, uno o più periodi temporali & Titolo (stringa)                                                                                                 & Indice (stringa)                                            \\
 		\hline
 		Luogo                & Luogo presente nella produzione narrativa                                          & Nome (stringa)                                                                                                   & X (reale), Y (reale), Mappa (entità in relazione)           \\
 		\hline
@@ -320,13 +331,13 @@ televisiva composta da 4 stagioni da 12 episodi l'una.
 		\hline
 		1                   & 8 volte al mese    \\
 		\hline
-		2                   & 80 volte al mese   \\
+		2                   & 2 volte al mese    \\
 		\hline
-		3                   & 2 volte al mese    \\
+		3                   & 80 volte al mese   \\
 		\hline
-		4                   & 7 volte al mese    \\
+		4                   & 1 volte al mese    \\
 		\hline
-		5                   & 1 volta al mese    \\
+		5                   & 7 volta al mese    \\
 		\hline
 		6                   & 160 volte al mese  \\
 		\hline
@@ -380,10 +391,11 @@ DBMS attuali può direttamente fare uso di viste in sola lettura.
 \subsubsection{Eliminazione delle gerarchie}
 
 L'unica gerarchia presente nel modello è la generalizzazione di ``Agente'' come
-genitore di ``Personaggio'' e ``Alias''. Dal momento che nessuna delle operazioni fa
-riferimento esplicito a una particolare istanziazione, a esse si fa sempre
-accesso contemporaneamente, e abbiamo quindi deciso di incorporare i figli nel
-genitore tramite l'aggiunta di un attributo ``Tipo'' di tipo enumerativo.
+genitore di ``Personaggio'' e ``Alias''. Dal momento che nessuna delle
+operazioni fa riferimento esplicito a una particolare istanziazione, a esse si
+fa sempre accesso contemporaneamente, e abbiamo quindi deciso di incorporare i
+figli nel genitore tramite l'aggiunta di un attributo ``Tipo'' di tipo
+enumerativo.
 
 % TODO: aggiungi diagramma ER gerarchia eliminata e attributo Tipo
 
@@ -453,6 +465,20 @@ presenta dipendenze non banali fra gli attributi.
 
 \section{Codifica SQL}
 
+Il DBMS scelto, da cui dipende anche il dialetto di SQL usato, è SQLite. Esso è
+caratterizzato da:
+\begin{itemize}
+	\item un ampio bacino di utenti;
+	\item basi di dati memorizzate come singolo file portabile senza architettura
+	      C/S;
+	\item sorgente aperto;
+	\item dimensioni ridotte.
+\end{itemize}
+
+Il dialetto di SQL offerto da SQLite è minimale e, come i suoi simili, ha
+qualche particolarità. Per esempio, i vincoli che includono sottointerrogazioni
+non sono supportati, e quindi non sono stati inclusi.
+
 \subsection{Definizione dello schema}
 
 \sql{schema}
@@ -460,5 +486,32 @@ presenta dipendenze non banali fra gli attributi.
 \subsection{Codifica delle operazioni}
 
 \sql{operation-01}
+\sql{operation-02}
+\sql{operation-03}
+\sql{operation-04}
+\sql{operation-05}
+\sql{operation-07}
+
+\section{Testing}
+
+Dopo aver eseguito le operazioni di cui sopra, la base di dati si presenta nel
+seguente stato.
+
+\subsection{Tabelle}
+
+\csv{Agente}
+\csv{Chi}
+\csv{Credenza}
+\csv{Dove}
+\csv{Evento}
+\csv{Fase}
+\csv{Intervallo}
+\csv{Luogo}
+\csv{Mappa}
+\csv{Mascheramento}
+\csv{Quando}
+\csv{UnitaNarrativa}
+
+\subsection{Interrogazioni}
 
 \end{document}
