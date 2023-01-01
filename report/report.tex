@@ -398,15 +398,16 @@ riferimento esplicito a una particolare istanziazione, a esse si fa sempre
 accesso contemporaneamente, e abbiamo quindi deciso di incorporare i figli nel
 genitore tramite l'aggiunta di un attributo ``Tipo'' di tipo enumerativo.
 
-% TODO: aggiungi diagramma ER gerarchia eliminata e attributo Tipo
-
+%\begin{figure}
+\includegraphics[width=\linewidth]{eliminazione-gerarchie.eps}
+%\end{figure}
 L'unica
 relazione a distinguere fra queste istanziazioni era ``Mascheramento''. Si rende
 quindi necessario aggiungere due regole di vincolo che implementino un vero e
 proprio ``controllo di tipo'':
 
 \begin{math}
-	RV8: Mascheramento.Personaggio.Tipo = Tipo.Personaggio
+	RV9: Mascheramento.Personaggio.Tipo = Tipo.Personaggio
 \end{math}
 
 \begin{math}
