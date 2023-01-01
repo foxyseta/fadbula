@@ -162,17 +162,17 @@ televisiva composta da 4 stagioni da 12 episodi l'una.
 	\item Inserire una nuova fase (in media 2 volte al mese)
 	\item Inserire un nuovo luogo (in media 7 volte al mese)
 	\item Inserire una nuova mappa (in media 1 volta al mese)
-	\item Inserire un nuovo evento(in media 160 volte al mese)
+	\item Inserire un nuovo evento (in media 160 volte al mese)
 	\item Inserire una nuova unità narrativa (in media 4 volte al mese)
-	\item Dato un personaggio, visualizzarne tutti gli alias (in media 8 volte al
+	\item Dato un agente, visualizzarne tutti gli alias (in media 8 volte al
 	      mese)
 	\item Dato un istante, visualizzare tutti gli agenti indicando se in vita o
-	      meno(in media 4 volte al mese)
+	      meno (in media 4 volte al mese)
 	\item Dato un luogo, visualizzare tutti quelli presenti nella stessa mappa (in
 	      media 7 volte al mese)
-	\item Dato un personaggio, visualizzare tutte le sue false credenze ordinate
+	\item Dato un agente, visualizzare tutte le sue false credenze ordinate
 	      cronologicamente (in media 1 volta al mese)
-	\item Dato un personaggio e un evento, visualizzare eventuali intervalli di
+	\item Dato un agente e un evento, visualizzare eventuali intervalli di
 	      tempo in cui il primo crede che sia avvenuto il secondo (in media 4
 	      volte al mese)
 	\item Visualizzare la fabula (in media 1 volta al mese)
@@ -344,6 +344,49 @@ televisiva composta da 4 stagioni da 12 episodi l'una.
 	\end{tabular}\end{center}
 
 \subsection{Ristrutturazione dello schema concettuale}
+
+\subsubsection{Eliminazione delle ridondanze}
+
+Il nostro modello attuale chiaramente non prevede ridondanze dovute ad attributi
+derivabili: l'unica regola di derivazione che abbiamo definito computa
+un'informazione non memorizzata nella base di dati, e nessun attributo memorizza
+neanche informazioni calcolabili dal corpo di alcuna tabella (come conteggi o
+risultati di altre funzioni di aggregazione). Anche se alcune chiavi primarie
+contenenti informazioni significative di fatto sono ripetute in altre tabelle
+come chiavi esterne, il loro uso è comunque preferibile all'adozione di altri
+codici identificativi arbitrari. Inoltre, non sono previste relazioni derivabili
+dalla commposizione di altre relazioni: infatti, nessun ciclo del diagramma
+permette di raggiungere un'entità a partire da un'altra tramite più percorsi
+distinti senza differenze semantiche. Ne concludiamo quindi che non sono
+presenti ridondanze di alcun tipo, e che non sono quindi necessarie tavole degli
+accessi.
+
+Rimane da chiedersi se sia opportuno aggiungere nuove ridondanze al fine di
+migliorare le operazioni di alcune operazioni tramite risultati precalcolati.
+Nessuna delle operazioni specificate sopra richiede risultati (intermedi o
+finali) specificabili in un unico attributo. Per esempio, per nessuna delle
+operazioni è richesto il calcolo di un conteggio, o il confronto con un massimo.
+Non porterebbe quindi ad alcun beneficio aggiungere singoli attributi
+ridondanti. Aggiungere delle relazioni aggiuntive potrebbe invece velocizzare
+le operazioni 13 e 14, che sono le uniche a richiedere una composizione di
+relazioni per essere elaborate. Anche senza tavole degli accessi, però, la bassa
+frequenza con cui queste operazioni complesse sono invocate scoraggia dal
+voler adottare un qualsiasi meccanismo di memoizzazione. Inoltre, la dimensione
+dei risultati memorizzati potrebbe risultare eccessiva.
+
+\subsubsection{Eliminazione delle gerarchie}
+
+L'unica gerarchia presente nel modello è la generalizzazione di "Agente" come
+genitore di "Personaggio" e "Alias". Dal momento che nessuna delle operazioni fa
+riferimento esplicito a una particolare istanziazione, a esse si fa sempre
+accesso contemporaneamente, e abbiamo quindi deciso di incorporare i figli nel
+genitore tramite l'aggiunta di un attributo "Tipo" di tipo enumerativo. L'unica
+relazione a distinguere fra queste istanziazioni era "Mascheramento". Si rende
+quindi necessario aggiungere due regole di vincolo che implementino un vero e
+proprio "controllo di tipo":
+
+$RV8: Mascheramento.Personaggio.Tipo = Tipo.Personaggio $
+$RV9: Mascheramento.Alias.Tipo = Tipo.Alias $
 
 \subsection{Normalizzazione}
 Analizzando lo schema concettuale si nota che tutte le associazioni presenti
