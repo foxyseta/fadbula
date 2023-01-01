@@ -453,6 +453,20 @@ presenta dipendenze non banali fra gli attributi.
 
 \section{Codifica SQL}
 
+Il DBMS scelto, da cui dipende anche il dialetto di SQL usato, è SQLite. Esso è
+caratterizzato da:
+\begin{itemize}
+	\item un ampio bacino di utenti;
+	\item basi di dati memorizzate come singolo file portabile senza architettura
+	      C/S;
+	\item sorgente aperto;
+	\item dimensioni ridotte.
+\end{itemize}
+
+Il dialetto di SQL offerto da SQLite è minimale e, come i suoi simili, ha
+qualche particolarità. Per esempio, i vincoli che includono sottointerrogazioni
+non sono supportati, e quindi non sono stati inclusi.
+
 \subsection{Definizione dello schema}
 
 \sql{schema}

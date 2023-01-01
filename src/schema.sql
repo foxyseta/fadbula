@@ -13,18 +13,18 @@ CREATE TABLE IF NOT EXISTS "Chi" (
 	"Evento"	INTEGER NOT NULL,
 	"Agente"	INTEGER NOT NULL,
 	PRIMARY KEY("Evento","Agente"),
-	FOREIGN KEY("Evento") REFERENCES "Evento"("Codice") ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY("Agente") REFERENCES "Agente"("Codice") ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY("Evento") REFERENCES "Evento"("Codice"),
+	FOREIGN KEY("Agente") REFERENCES "Agente"("Codice")
 );
 CREATE TABLE IF NOT EXISTS "Credenza" (
 	"Evento"	INTEGER NOT NULL,
 	"Agente"	INTEGER NOT NULL,
 	"IstanteInizio"	TEXT NOT NULL CHECK("IstanteInizio" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'),
 	"IstanteFine"	TEXT NOT NULL CHECK("IstanteFine" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'),
-	FOREIGN KEY("Evento") REFERENCES "Evento"("Codice") ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY("Agente") REFERENCES "Agente"("Codice") ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY("IstanteInizio") REFERENCES "Intervallo"("IstanteInizio") ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY("IstanteFine") REFERENCES "Intervallo"("IstanteFine") ON DELETE CASCADE ON UPDATE CASCADE,
+	FOREIGN KEY("Evento") REFERENCES "Evento"("Codice"),
+	FOREIGN KEY("Agente") REFERENCES "Agente"("Codice"),
+	FOREIGN KEY("IstanteInizio") REFERENCES "Intervallo"("IstanteInizio"),
+	FOREIGN KEY("IstanteFine") REFERENCES "Intervallo"("IstanteFine"),
 	PRIMARY KEY("IstanteFine","IstanteInizio","Agente","Evento")
 );
 CREATE TABLE IF NOT EXISTS "Dove" (
@@ -33,10 +33,10 @@ CREATE TABLE IF NOT EXISTS "Dove" (
 	"Y"	REAL NOT NULL,
 	"Mappa"	INTEGER NOT NULL,
 	PRIMARY KEY("Evento","X","Y","Mappa"),
-	FOREIGN KEY("Evento") REFERENCES "Evento"("Codice") ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY("X") REFERENCES "Luogo"("X") ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY("Y") REFERENCES "Luogo"("Y") ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY("Mappa") REFERENCES "Luogo"("Mappa") ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY("Evento") REFERENCES "Evento"("Codice"),
+	FOREIGN KEY("X") REFERENCES "Luogo"("X"),
+	FOREIGN KEY("Y") REFERENCES "Luogo"("Y"),
+	FOREIGN KEY("Mappa") REFERENCES "Luogo"("Mappa")
 );
 CREATE TABLE IF NOT EXISTS "Evento" (
 	"Codice"	INTEGER NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS "Luogo" (
 	"Y"	REAL NOT NULL CHECK("Y" BETWEEN 0 AND 1),
 	"Mappa"	INTEGER NOT NULL,
 	PRIMARY KEY("X","Y","Mappa"),
-	FOREIGN KEY("Mappa") REFERENCES "Mappa"("Codice") ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY("Mappa") REFERENCES "Mappa"("Codice")
 );
 CREATE TABLE IF NOT EXISTS "Mappa" (
 	"Codice"	INTEGER NOT NULL,
@@ -77,17 +77,17 @@ CREATE TABLE IF NOT EXISTS "Mascheramento" (
 	"Personaggio"	INTEGER NOT NULL,
 	"Alias"	INTEGER NOT NULL,
 	PRIMARY KEY("Personaggio","Alias"),
-	FOREIGN KEY("Personaggio") REFERENCES "Agente"("Codice") ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY("Alias") REFERENCES "Agente"("Codice") ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY("Personaggio") REFERENCES "Agente"("Codice"),
+	FOREIGN KEY("Alias") REFERENCES "Agente"("Codice")
 );
 CREATE TABLE IF NOT EXISTS "Quando" (
 	"Evento"	INTEGER NOT NULL,
 	"IstanteInizio"	TEXT NOT NULL CHECK("IstanteInizio" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'),
 	"IstanteFine"	TEXT NOT NULL CHECK("IstanteFine" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'),
 	PRIMARY KEY("Evento","IstanteInizio","IstanteFine"),
-	FOREIGN KEY("Evento") REFERENCES "Evento"("Codice") ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY("IstanteInizio") REFERENCES "Intervallo"("IstanteInizio") ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY("IstanteFine") REFERENCES "Intervallo"("IstanteFine") ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY("Evento") REFERENCES "Evento"("Codice"),
+	FOREIGN KEY("IstanteInizio") REFERENCES "Intervallo"("IstanteInizio"),
+	FOREIGN KEY("IstanteFine") REFERENCES "Intervallo"("IstanteFine")
 );
 CREATE TABLE IF NOT EXISTS "UnitaNarrativa" (
 	"Indice"	TEXT NOT NULL CHECK("Indice" REGEXP "\d+(\.\d+)*"),
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS "UnitaNarrativa" (
 	"IstanteInizio"	TEXT NOT NULL CHECK("IstanteInizio" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'),
 	"IstanteFine"	TEXT NOT NULL CHECK("IstanteFine" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'),
 	PRIMARY KEY("Indice"),
-	FOREIGN KEY("IstanteInizio") REFERENCES "Intervallo"("IstanteInizio") ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY("IstanteFine") REFERENCES "Intervallo"("IstanteFine") ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY("IstanteInizio") REFERENCES "Intervallo"("IstanteInizio"),
+	FOREIGN KEY("IstanteFine") REFERENCES "Intervallo"("IstanteFine")
 );
 COMMIT;
