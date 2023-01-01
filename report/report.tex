@@ -169,13 +169,13 @@ nei requisiti espressi in linguaggio naturale.
 Si scelgono le frequenze assumendo di tracciare una produzione narrativa
 televisiva composta da 4 stagioni da 12 episodi l'una.
 \begin{enumerate}
-	\item Inserire un nuovo agente (in media 8 volte al mese)
-	\item Inserire un nuovo intervallo (in media 80 volte al mese)
-	\item Inserire una nuova fase (in media 2 volte al mese)
-	\item Inserire un nuovo luogo (in media 7 volte al mese)
-	\item Inserire una nuova mappa (in media 1 volta al mese)
-	\item Inserire un nuovo evento (in media 160 volte al mese)
-	\item Inserire una nuova unità narrativa (in media 4 volte al mese)
+	\item Inserire nuovi agenti (in media 8 volte al mese)
+	\item Inserire nuove fasi (in media 2 volte al mese)
+	\item Inserire nuovi intervalli (in media 80 volte al mese)
+	\item Inserire nuove mappe (in media 1 volta al mese)
+	\item Inserire nuovi luoghi (in media 7 volte al mese)
+	\item Inserire nuovi eventi (in media 160 volte al mese)
+	\item Inserire nuove unità narrative (in media 4 volte al mese)
 	\item Dato un agente, visualizzarne tutti gli alias (in media 8 volte al
 	      mese)
 	\item Dato un istante, visualizzare tutti gli agenti indicando se in vita o
@@ -329,13 +329,13 @@ televisiva composta da 4 stagioni da 12 episodi l'una.
 		\hline
 		1                   & 8 volte al mese    \\
 		\hline
-		2                   & 80 volte al mese   \\
+		2                   & 2 volte al mese    \\
 		\hline
-		3                   & 2 volte al mese    \\
+		3                   & 80 volte al mese   \\
 		\hline
-		4                   & 7 volte al mese    \\
+		4                   & 1 volte al mese    \\
 		\hline
-		5                   & 1 volta al mese    \\
+		5                   & 7 volta al mese    \\
 		\hline
 		6                   & 160 volte al mese  \\
 		\hline
@@ -389,10 +389,11 @@ DBMS attuali può direttamente fare uso di viste in sola lettura.
 \subsubsection{Eliminazione delle gerarchie}
 
 L'unica gerarchia presente nel modello è la generalizzazione di ``Agente'' come
-genitore di ``Personaggio'' e ``Alias''. Dal momento che nessuna delle operazioni fa
-riferimento esplicito a una particolare istanziazione, a esse si fa sempre
-accesso contemporaneamente, e abbiamo quindi deciso di incorporare i figli nel
-genitore tramite l'aggiunta di un attributo ``Tipo'' di tipo enumerativo.
+genitore di ``Personaggio'' e ``Alias''. Dal momento che nessuna delle
+operazioni fa riferimento esplicito a una particolare istanziazione, a esse si
+fa sempre accesso contemporaneamente, e abbiamo quindi deciso di incorporare i
+figli nel genitore tramite l'aggiunta di un attributo ``Tipo'' di tipo
+enumerativo.
 
 % TODO: aggiungi diagramma ER gerarchia eliminata e attributo Tipo
 
@@ -483,6 +484,8 @@ non sono supportati, e quindi non sono stati inclusi.
 \subsection{Codifica delle operazioni}
 
 \sql{operation-01}
+\sql{operation-02}
+\sql{operation-03}
 
 \section{Testing}
 
@@ -491,9 +494,17 @@ seguente stato.
 
 \subsection{Tabelle}
 
-\subsubsection{Agenti}
+\subsubsection{Agente}
 
-\csv{agenti}
+\csv{agente}
+
+\subsubsection{Fase}
+
+\csv{fase}
+
+\subsubsection{Intervallo}
+
+\csv{intervallo}
 
 \subsection{Interrogazioni}
 
