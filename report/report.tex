@@ -7,6 +7,7 @@
 \usepackage{xcolor}
 \usepackage{mfirstuc}
 \usepackage{calc}
+\usepackage{csvsimple}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -44,6 +45,14 @@
 \newcommand{\sql}[1]{
 	\sqlinputlisting{../src/#1.sql}
 	{\texttt{#1.sql}}
+}
+
+% File name without extension
+\newcommand{\csv}[1]{
+	\begin{center}
+		\tiny
+		\csvautotabular[head to column names]{../data/#1.csv}
+	\end{center}
 }
 
 \title{
@@ -474,5 +483,18 @@ non sono supportati, e quindi non sono stati inclusi.
 \subsection{Codifica delle operazioni}
 
 \sql{operation-01}
+
+\section{Testing}
+
+Dopo aver eseguito le operazioni di cui sopra, la base di dati si presenta nel
+seguente stato.
+
+\subsection{Tabelle}
+
+\subsubsection{Agenti}
+
+\csv{agenti}
+
+\subsection{Interrogazioni}
 
 \end{document}
