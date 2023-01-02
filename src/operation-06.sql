@@ -8,7 +8,7 @@ VALUES
 	(4, "Lupo raggiunge nonna", TRUE),
 	(5, "Lupo mangia nonna", TRUE),
 	(6, "Cappuccetto raggiunge nonna", TRUE),
-	(7, "Nonna è a letto", FALSE),
+	(7, "Nonna a letto", FALSE),
 	(8, "Lupo mangia cappuccetto", TRUE),
 	(9, "Il cacciatore soccorre", TRUE);
 -- "Chi" correlati

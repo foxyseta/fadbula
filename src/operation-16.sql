@@ -1,4 +1,4 @@
--- Operazione 16: dato un agente, visualizzarne gli spostamenti
+-- Operazione 16: 
 SELECT "Quando"."IstanteInizio" AS "Da", "Quando"."IstanteFine" AS "A", "Luogo"."Nome"
 FROM "Luogo"
 JOIN "Dove"
