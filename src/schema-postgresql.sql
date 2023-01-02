@@ -2,7 +2,7 @@ BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS "Evento" (
   "Codice" SERIAL NOT NULL,
   "Nome" TEXT NOT NULL,
-  "Veridicita" INTEGER NOT NULL CHECK("Veridicita" IN (0, 1)),
+  "Veridicita" BOOLEAN NOT NULL,
   PRIMARY KEY("Codice")
 );
 CREATE TABLE IF NOT EXISTS "Agente" (
@@ -10,27 +10,18 @@ CREATE TABLE IF NOT EXISTS "Agente" (
   "Nome" TEXT NOT NULL,
   "Immagine" BYTEA,
   "Sesso" TEXT CHECK("Sesso" IN ('M', 'F')),
-  "IstanteNascita" TEXT CHECK(
-    "IstanteNascita" IS NULL
-    OR "IstanteNascita" SIMILAR TO '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'
-  ),
+  "IstanteNascita" TEXT,
   "IstanteMorte" TEXT CHECK(
     "IstanteMorte" IS NULL
-    OR "IstanteMorte" SIMILAR TO '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'
-    AND "IstanteNascita" < "IstanteMorte"
+    OR "IstanteNascita" < "IstanteMorte"
   ),
   "Tipo" TEXT CHECK("Tipo" IN ('Personaggio', 'Alias')),
   PRIMARY KEY("Codice")
 );
 CREATE TABLE IF NOT EXISTS "Intervallo" (
-  "Nome" NUMERIC NOT NULL,
-  "IstanteInizio" TEXT NOT NULL CHECK(
-    "IstanteInizio" SIMILAR TO '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'
-  ),
-  "IstanteFine" TEXT NOT NULL CHECK(
-    "IstanteFine" SIMILAR TO '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'
-    AND "IstanteInizio" <= "IstanteFine"
-  ),
+  "Nome" TEXT NOT NULL,
+  "IstanteInizio" TEXT NOT NULL,
+  "IstanteFine" TEXT NOT NULL CHECK("IstanteInizio" <= "IstanteFine"),
   "Iterazione" INTEGER CHECK("Iterazione" >= 1),
   "Fase" INTEGER CHECK(
     CASE
@@ -50,16 +41,17 @@ CREATE TABLE IF NOT EXISTS "Chi" (
 CREATE TABLE IF NOT EXISTS "Credenza" (
   "Evento" INTEGER NOT NULL,
   "Agente" INTEGER NOT NULL,
-  "IstanteInizio" TEXT NOT NULL CHECK(
-    "IstanteInizio" SIMILAR TO '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'
-  ),
-  "IstanteFine" TEXT NOT NULL CHECK(
-    "IstanteFine" SIMILAR TO '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'
-  ),
+  "IstanteInizio" TEXT NOT NULL,
+  "IstanteFine" TEXT NOT NULL,
   FOREIGN KEY("Evento") REFERENCES "Evento"("Codice"),
   FOREIGN KEY("Agente") REFERENCES "Agente"("Codice"),
   FOREIGN KEY("IstanteInizio", "IstanteFine") REFERENCES "Intervallo"("IstanteInizio", "IstanteFine"),
-  PRIMARY KEY("IstanteFine", "IstanteInizio", "Agente", "Evento")
+  PRIMARY KEY(
+    "IstanteFine",
+    "IstanteInizio",
+    "Agente",
+    "Evento"
+  )
 );
 CREATE TABLE IF NOT EXISTS "Mappa" (
   "Codice" SERIAL NOT NULL,
@@ -104,27 +96,17 @@ CREATE TABLE IF NOT EXISTS "Mascheramento" (
 );
 CREATE TABLE IF NOT EXISTS "Quando" (
   "Evento" INTEGER NOT NULL,
-  "IstanteInizio" TEXT NOT NULL CHECK(
-    "IstanteInizio" SIMILAR TO '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'
-  ),
-  "IstanteFine" TEXT NOT NULL CHECK(
-    "IstanteFine" SIMILAR TO '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'
-  ),
+  "IstanteInizio" TEXT NOT NULL,
+  "IstanteFine" TEXT NOT NULL,
   PRIMARY KEY("Evento", "IstanteInizio", "IstanteFine"),
   FOREIGN KEY("Evento") REFERENCES "Evento"("Codice"),
   FOREIGN KEY("IstanteInizio", "IstanteFine") REFERENCES "Intervallo"("IstanteInizio", "IstanteFine")
 );
-CREATE TABLE IF NOT EXISTS "UnitaNarrativa" > Fratello: (
-  "Indice" TEXT NOT NULL CHECK("Indice" SIMILAR TO '\d+(\.\d+)*'),
+CREATE TABLE IF NOT EXISTS "UnitaNarrativa" (
+  "Indice" TEXT NOT NULL,
   "Nome" TEXT NOT NULL,
-  "IstanteInizio" TEXT CHECK(
-    "IstanteInizio" IS NULL
-    OR "IstanteInizio" SIMILAR TO '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'
-  ),
-  "IstanteFine" TEXT CHECK(
-    "IstanteFine" IS NULL
-    OR "IstanteFine" SIMILAR TO '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'
-  ),
+  "IstanteInizio" TEXT,
+  "IstanteFine" TEXT,
   PRIMARY KEY("Indice"),
   FOREIGN KEY("IstanteInizio", "IstanteFine") REFERENCES "Intervallo"("IstanteInizio", "IstanteFine")
 );

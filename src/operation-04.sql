@@ -6,5 +6,5 @@ INSERT INTO "Mappa"(
 		"Larghezza",
 		"Altezza"
 	)
-VALUES (0, "Bosco e dintorni", NULL, 16, 9),
-	(1, "Villaggio", NULL, 4, 3)
+VALUES (0, 'Bosco e dintorni', NULL, 16, 9),
+	(1, 'Villaggio', NULL, 4, 3)

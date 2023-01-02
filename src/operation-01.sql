@@ -63,5 +63,5 @@ VALUES (
 		'Personaggio'
 	);
 -- Mascheramenti correlati
-INSERT INTO Mascheramento(Personaggio, Alias)
+INSERT INTO "Mascheramento"("Personaggio", "Alias")
 VALUES (2, 4)
