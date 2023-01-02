@@ -1,12 +1,12 @@
 -- Operazione 1: inserire nuovi agenti
-INSERT INTO Agente(
-		Codice,
-		Nome,
-		Immagine,
-		Sesso,
-		IstanteNascita,
-		IstanteMorte,
-		Tipo
+INSERT INTO "Agente"(
+		"Codice",
+		"Nome",
+		"Immagine",
+		"Sesso",
+		"IstanteNascita",
+		"IstanteMorte",
+		"Tipo"
 	)
 VALUES (
 		0,

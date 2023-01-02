@@ -1,5 +1,5 @@
 -- Operazione 7: inserire nuove unita' narrative
-INSERT INTO UnitaNarrativa(Indice, Nome, IstanteInizio, IstanteFine)
+INSERT INTO "UnitaNarrativa"("Indice", "Nome", "IstanteInizio", "IstanteFine")
 VALUES (
     '1',
     'Inizio',
