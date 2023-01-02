@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS "Fase" (
 	PRIMARY KEY("Indice")
 );
 CREATE TABLE IF NOT EXISTS "Intervallo" (
-	"Nome" NUMERIC NOT NULL,
+	"Nome" TEXT NOT NULL,
 	"IstanteInizio" TEXT NOT NULL CHECK(
 		"IstanteInizio" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'
 	),

@@ -2,7 +2,7 @@ BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS "Evento" (
   "Codice" SERIAL NOT NULL,
   "Nome" TEXT NOT NULL,
-  "Veridicita" INTEGER NOT NULL CHECK("Veridicita" IN (0, 1)),
+  "Veridicita" BOOLEAN NOT NULL,
   PRIMARY KEY("Codice")
 );
 CREATE TABLE IF NOT EXISTS "Agente" (
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS "Agente" (
   PRIMARY KEY("Codice")
 );
 CREATE TABLE IF NOT EXISTS "Intervallo" (
-  "Nome" NUMERIC NOT NULL,
+  "Nome" TEXT NOT NULL,
   "IstanteInizio" TEXT NOT NULL,
   "IstanteFine" TEXT NOT NULL CHECK("IstanteInizio" <= "IstanteFine"),
   "Iterazione" INTEGER CHECK("Iterazione" >= 1),
