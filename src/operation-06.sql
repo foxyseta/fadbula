@@ -1,17 +1,17 @@
 -- Operazione 6: inserire nuovi eventi
-INSERT INTO Evento("Codice", "Nome", "Veridicita")
-VALUES (0, "Mamma chiede un favore", TRUE),
-	(1, "Mamma mette in guardia", TRUE),
-	(2, "Cappuccetto parte", TRUE),
-	(3, "Cappuccetto incontra Lupo", TRUE),
-	(4, "Lupo raggiunge nonna", TRUE),
-	(5, "Lupo mangia nonna", TRUE),
-	(6, "Cappuccetto raggiunge nonna", TRUE),
-	(7, "Nonna a letto", FALSE),
-	(8, "Lupo mangia cappuccetto", TRUE),
-	(9, "Il cacciatore soccorre", TRUE);
+INSERT INTO "Evento"("Codice", "Nome", "Veridicita")
+VALUES (0, 'Mamma chiede un favore', TRUE),
+	(1, 'Mamma mette in guardia', TRUE),
+	(2, 'Cappuccetto parte', TRUE),
+	(3, 'Cappuccetto incontra Lupo', TRUE),
+	(4, 'Lupo raggiunge nonna', TRUE),
+	(5, 'Lupo mangia nonna', TRUE),
+	(6, 'Cappuccetto raggiunge nonna', TRUE),
+	(7, 'Nonna a letto', FALSE),
+	(8, 'Lupo mangia cappuccetto', TRUE),
+	(9, 'Il cacciatore soccorre', TRUE);
 -- "Chi" correlati
-INSERT INTO Chi("Evento", "Agente")
+INSERT INTO "Chi"("Evento", "Agente")
 VALUES (0, 0),
 	(0, 1),
 	(1, 0),
@@ -33,7 +33,7 @@ VALUES (0, 0),
 	(9, 4),
 	(9, 5);
 -- "Quando" correlati
-INSERT INTO Quando("Evento", "IstanteInizio", "IstanteFine")
+INSERT INTO "Quando"("Evento", "IstanteInizio", "IstanteFine")
 VALUES (
 		0,
 		'2023-01-02T06:00:00',
@@ -85,7 +85,7 @@ VALUES (
 		'2023-01-02T12:30:00'
 	);
 -- "Dove" correlati
-INSERT INTO Dove("Evento", "X", "Y", "Mappa")
+INSERT INTO "Dove"("Evento", "X", "Y", "Mappa")
 VALUES (0, 0.1, 0.1, 0),
 	(1, 0.1, 0.1, 0),
 	(2, 0.1, 0.1, 0),
@@ -97,7 +97,7 @@ VALUES (0, 0.1, 0.1, 0),
 	(8, 0.9, 0.9, 0),
 	(9, 0.9, 0.9, 0);
 -- Credenze correlate
-INSERT INTO Credenza(
+INSERT INTO "Credenza"(
 		"Evento",
 		"Agente",
 		"IstanteInizio",

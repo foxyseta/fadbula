@@ -1,10 +1,10 @@
 -- Operazione 3: inserire nuovi intervalli
-INSERT INTO Intervallo(
-		Nome,
-		IstanteInizio,
-		IstanteFine,
-		Iterazione,
-		Fase
+INSERT INTO "" Intervallo "(
+		" Nome ",
+		" IstanteInizio ",
+		" IstanteFine ",
+		" Iterazione ",
+		" Fase "
 	)
 VALUES (
 		'Appena sveglie',
