@@ -97,11 +97,10 @@ CREATE TABLE IF NOT EXISTS "Mascheramento" (
 CREATE TABLE IF NOT EXISTS "Quando" (
   "Evento" INTEGER NOT NULL,
   "IstanteInizio" TEXT NOT NULL,
-),
-"IstanteFine" TEXT NOT NULL,
-PRIMARY KEY("Evento", "IstanteInizio", "IstanteFine"),
-FOREIGN KEY("Evento") REFERENCES "Evento"("Codice"),
-FOREIGN KEY("IstanteInizio", "IstanteFine") REFERENCES "Intervallo"("IstanteInizio", "IstanteFine")
+  "IstanteFine" TEXT NOT NULL,
+  PRIMARY KEY("Evento", "IstanteInizio", "IstanteFine"),
+  FOREIGN KEY("Evento") REFERENCES "Evento"("Codice"),
+  FOREIGN KEY("IstanteInizio", "IstanteFine") REFERENCES "Intervallo"("IstanteInizio", "IstanteFine")
 );
 CREATE TABLE IF NOT EXISTS "UnitaNarrativa" (
   "Indice" TEXT NOT NULL,
