@@ -82,4 +82,4 @@ VALUES
 	(9, 0.9, 0.9, 1);
 -- Credenze correlate
 INSERT INTO Credenza("Evento", "Agente", "IstanteInizio", "IstanteFine")
-VALUES (7, 1, '2023-01-02T10:30:00', '2023-01-02T11:30:00')
+VALUES (7, 0, '2023-01-02T10:30:00', '2023-01-02T11:00:00')

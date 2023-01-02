@@ -1,4 +1,4 @@
--- Operazione 10: dato un luogo, visualizzare tutti quelli presenti nella stessa mappa 
+-- Operazione 10: dato un luogo, visualizzare tutti quelli presenti nella stessa mappa
 SELECT
 	"Luogo"."Nome" AS "Nome luogo",
 	"X" * "Larghezza" AS "X",

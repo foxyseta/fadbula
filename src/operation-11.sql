@@ -1,4 +1,4 @@
--- Operazione 10: dato un agente, visualizzare tutte le sue false credenze ordinate cronologicamente
+-- Operazione 11: dato un agente, visualizzare tutte le sue false credenze ordinate cronologicamente
 SELECT
 	"Evento"."Nome" AS "Falso evento",
 	"Intervallo"."Nome" AS "Quando",
