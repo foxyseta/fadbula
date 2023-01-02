@@ -4,8 +4,8 @@ CREATE TABLE IF NOT EXISTS "Agente" (
 	"Nome"	TEXT NOT NULL,
 	"Immagine"	NUMERIC,
 	"Sesso"	TEXT CHECK("Sesso" IN ('M', 'F')),
-	"IstanteNascita"	TEXT CHECK("IstanteNascita" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'),
-	"IstanteMorte"	TEXT CHECK("IstanteMorte" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$' AND "IstanteNascita" < "IstanteMorte"),
+	"IstanteNascita"	TEXT CHECK("IstanteNascita" IS NULL OR "IstanteNascita" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'),
+	"IstanteMorte"	TEXT CHECK("IstanteMorte" IS NULL OR "IstanteMorte" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$' AND "IstanteNascita" < "IstanteMorte"),
 	"Tipo"	TEXT CHECK("Tipo" IN ('Personaggio', 'Alias')),
 	PRIMARY KEY("Codice" AUTOINCREMENT)
 );
@@ -23,8 +23,7 @@ CREATE TABLE IF NOT EXISTS "Credenza" (
 	"IstanteFine"	TEXT NOT NULL CHECK("IstanteFine" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'),
 	FOREIGN KEY("Evento") REFERENCES "Evento"("Codice"),
 	FOREIGN KEY("Agente") REFERENCES "Agente"("Codice"),
-	FOREIGN KEY("IstanteInizio") REFERENCES "Intervallo"("IstanteInizio"),
-	FOREIGN KEY("IstanteFine") REFERENCES "Intervallo"("IstanteFine"),
+	FOREIGN KEY("IstanteInizio","IstanteFine") REFERENCES "Intervallo"("IstanteInizio","IstanteFine"),
 	PRIMARY KEY("IstanteFine","IstanteInizio","Agente","Evento")
 );
 CREATE TABLE IF NOT EXISTS "Dove" (
@@ -34,9 +33,7 @@ CREATE TABLE IF NOT EXISTS "Dove" (
 	"Mappa"	INTEGER NOT NULL,
 	PRIMARY KEY("Evento","X","Y","Mappa"),
 	FOREIGN KEY("Evento") REFERENCES "Evento"("Codice"),
-	FOREIGN KEY("X") REFERENCES "Luogo"("X"),
-	FOREIGN KEY("Y") REFERENCES "Luogo"("Y"),
-	FOREIGN KEY("Mappa") REFERENCES "Luogo"("Mappa")
+	FOREIGN KEY("X","Y","Mappa") REFERENCES "Luogo"("X","Y","Mappa")
 );
 CREATE TABLE IF NOT EXISTS "Evento" (
 	"Codice"	INTEGER NOT NULL,
@@ -86,16 +83,14 @@ CREATE TABLE IF NOT EXISTS "Quando" (
 	"IstanteFine"	TEXT NOT NULL CHECK("IstanteFine" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'),
 	PRIMARY KEY("Evento","IstanteInizio","IstanteFine"),
 	FOREIGN KEY("Evento") REFERENCES "Evento"("Codice"),
-	FOREIGN KEY("IstanteInizio") REFERENCES "Intervallo"("IstanteInizio"),
-	FOREIGN KEY("IstanteFine") REFERENCES "Intervallo"("IstanteFine")
+	FOREIGN KEY("IstanteInizio","IstanteFine") REFERENCES "Intervallo"("IstanteInizio","IstanteFine")
 );
 CREATE TABLE IF NOT EXISTS "UnitaNarrativa" (
 	"Indice"	TEXT NOT NULL CHECK("Indice" REGEXP "\d+(\.\d+)*"),
 	"Nome"	TEXT NOT NULL,
-	"IstanteInizio"	TEXT NOT NULL CHECK("IstanteInizio" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'),
-	"IstanteFine"	TEXT NOT NULL CHECK("IstanteFine" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'),
+	"IstanteInizio"	TEXT CHECK("IstanteInizio" IS NULL OR "IstanteInizio" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'),
+	"IstanteFine"	TEXT CHECK("IstanteFine" IS NULL OR "IstanteFine" REGEXP '^((?:(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}(?:\.\d+)?))(Z|[\+-]\d{2}:\d{2})?)$'),
 	PRIMARY KEY("Indice"),
-	FOREIGN KEY("IstanteInizio") REFERENCES "Intervallo"("IstanteInizio"),
-	FOREIGN KEY("IstanteFine") REFERENCES "Intervallo"("IstanteFine")
+	FOREIGN KEY("IstanteInizio","IstanteFine") REFERENCES "Intervallo"("IstanteInizio","IstanteFine")
 );
 COMMIT;

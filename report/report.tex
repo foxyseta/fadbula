@@ -84,7 +84,7 @@
 \thispagestyle{empty}
 \pagebreak
 \tableofcontents
-\pagebreak
+
 \section{Analisi dei requisiti}
 
 \subsection{Requisiti espressi in linguaggio naturale}
@@ -191,6 +191,8 @@ televisiva composta da 4 stagioni da 12 episodi l'una.
 	      volte al mese)
 	\item Visualizzare la fabula (in media 1 volta al mese)
 	\item Visualizzare l'intreccio (in media 1 volta al mese)
+	\item Visualizzare le mappe ordinate per estensione decrescente
+	\item Dato un agente, visualizzarne gli spostamenti
 \end{enumerate}
 
 
@@ -295,7 +297,7 @@ iniziare a inserire uno o più luoghi.
 	\end{tabular}\end{center}
 
 
-\subsection{Regole aziendali}
+\subsection{Regole di dominio}
 \begin{center}\begin{tabular}{ |l| }
 		\hline
 		\textbf{Regole di vincolo}                                                          \\
@@ -388,6 +390,10 @@ televisiva composta da 4 stagioni da 12 episodi l'una.
 		13                  & 1 volta al mese    \\
 		\hline
 		14                  & 1 volta al mese    \\
+		\hline
+		15                  & 1 volta al mese    \\
+		\hline
+		16                  & 8 volta al mese    \\
 		\hline
 	\end{tabular}\end{center}
 
@@ -538,19 +544,29 @@ presenta dipendenze non banali fra gli attributi.
 
 \section{Codifica SQL}
 
-Il DBMS scelto, da cui dipende anche il dialetto di SQL usato, è SQLite. Esso è
-caratterizzato da:
+Il sistema di gestione di basi di dati scelto, da cui dipende anche il dialetto
+di SQL usato, è SQLite. Le motivazioni che hanno portato a questa scelta sono:
 \begin{itemize}
 	\item un ampio bacino di utenti;
-	\item basi di dati memorizzate come singolo file portabile senza architettura
-	      C/S;
-	\item sorgente aperto;
-	\item dimensioni ridotte.
+	\item il fatto che le basi di dati vengano memorizzate come singolo file
+	      portabile privo di architettura C/S;
+	\item il fatto che sia rilasciato come sorgente aperto;
+	\item le dimensioni ridotte sia del DBMS in sé che delle basi di dati che
+	      produce.
 \end{itemize}
 
-Il dialetto di SQL offerto da SQLite è minimale e, come i suoi simili, ha
-qualche particolarità. Per esempio, i vincoli che includono sottointerrogazioni
-non sono supportati, e quindi non sono stati inclusi.
+Il dialetto di SQL offerto da SQLite è minimale, e la codifica inevitabilmente
+ne ha risentito. Per esempio:
+\begin{itemize}
+	\item i vincoli che includono sottointerrogazioni non sono supportati;
+	\item non esistono tipi specifici per enumerazioni, booleani o date.
+\end{itemize}
+
+Abbiamo inoltre fatto la scelta di astenerci dall'uso di caratteri accentati
+nel riportare gli identificativi in SQL. Pur essendo essi supportati, questa è
+comunque un buona pratica che strizza l'occhio ai lettori internazionali.
+L'intera base di dati, nonché questa relazione, fanno comunque uso della lingua
+italiana, usata per l'insegnamento in oggetto.
 
 \subsection{Definizione dello schema}
 
@@ -563,7 +579,17 @@ non sono supportati, e quindi non sono stati inclusi.
 \sql{operation-03}
 \sql{operation-04}
 \sql{operation-05}
+\sql{operation-06}
 \sql{operation-07}
+\sql{operation-08}
+\sql{operation-09}
+\sql{operation-10}
+\sql{operation-11}
+\sql{operation-12}
+\sql{operation-13}
+\sql{operation-14}
+\sql{operation-15}
+\sql{operation-16}
 
 \section{Testing}
 
@@ -586,5 +612,18 @@ seguente stato.
 \csv{UnitaNarrativa}
 
 \subsection{Interrogazioni}
+
+Le seguenti tabelle illustrano i risultati restituiti dalle operazioni di
+interrogazione.
+
+\csv{Operazione08}
+\csv{Operazione09}
+\csv{Operazione10}
+\csv{Operazione11}
+\csv{Operazione12}
+\csv{Operazione13}
+\csv{Operazione14}
+\csv{Operazione15}
+\csv{Operazione16}
 
 \end{document}
