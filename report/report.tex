@@ -445,23 +445,63 @@ presenta dipendenze non banali fra gli attributi.
 
 \subsection{Traduzione verso il modello relazionale}
 
-\begin{center}\begin{tabular}{ |c|c| }
+\begin{center}\begin{tabular}{|p{0.3\textwidth-2\tabcolsep-1.2\arrayrulewidth}|p{0.7\textwidth-2\tabcolsep-1.2\arrayrulewidth}|}
 		\hline
-		\textbf{Entità-Relazione} & \textbf{Traduzione} \\
+		\textbf{Entità-Relazione} & \textbf{Traduzione}                                                                                  \\
 		\hline
-		cell5                     & cell6               \\
+		Agente                    & Agente(\underline{Codice}, Nome, Immagine, Sesso, IstanteNascita, IstanteMorte, Tipo)                \\
 		\hline
-		cell9                     & cell10              \\
+		Intervallo                & Intervallo(Nome, \underline{IstanteInizio}, \underline{IstanteFine})                                 \\
+		\hline
+		Fase                      & Fase(\underline{Indice}, Nome)                                                                       \\
+		\hline
+		Unità narrativa           & UnitàNarrativa(\underline{Indice}, Nome, \underline{IstanteInizio}, \underline{IstanteFine})         \\
+		\hline
+		Luogo                     & Luogo(Nome, \underline{X}, \underline{Y}, \underline{Mappa})                                         \\
+		\hline
+		Mappa                     & Mappa(\underline{Codice}, Nome, Immagine, Larghezza, Altezza)                                        \\
+		\hline
+		Evento                    & Evento(\underline{Codice}, Nome, Veridicità)                                                         \\
+		\hline
+		Mascheramento             & Mascheramento(\underline{Personaggio}, \underline{Alias})                                            \\
+		\hline
+		Chi                       & Chi(\underline{Evento}, \underline{Agente})                                                          \\
+		\hline
+		Quando                    & Quando(\underline{Evento}, \underline{IstanteInizio}, \underline{IstanteFine})                       \\
+		\hline
+		Dove                      & Dove(\underline{Evento}, \underline{X}, \underline{Y}, \underline{Mappa})                            \\
+		\hline
+		Credenza                  & Credenza(\underline{Evento}, \underline{Agente}, \underline{IstanteInizio}, \underline{IstanteFine}) \\
 		\hline
 	\end{tabular}\end{center}
 
-\begin{center}\begin{tabular}{ |c|c| }
+\begin{center}\begin{tabular}{|p{0.6\textwidth-2\tabcolsep-1.2\arrayrulewidth}|p{0.4\textwidth-2\tabcolsep-1.2\arrayrulewidth}|}
 		\hline
-		\textbf{Traduzione} & \textbf{Vincoli di riferimento} \\
+		\textbf{Traduzione}                                                                                  & \textbf{Vincoli di riferimento}                                                                                                                                                \\
 		\hline
-		cell5               & cell6                           \\
+		Agente(\underline{Codice}, Nome, Immagine, Sesso, IstanteNascita, IstanteMorte, Tipo)                & -                                                                                                                                                                              \\
 		\hline
-		cell9               & cell10                          \\
+		Intervallo(Nome, \underline{IstanteInizio}, \underline{IstanteFine})                                 & -                                                                                                                                                                              \\
+		\hline
+		Fase(\underline{Indice}, Nome)                                                                       & -                                                                                                                                                                              \\
+		\hline
+		UnitàNarrativa(\underline{Indice}, Nome, \underline{IstanteInizio}, \underline{IstanteFine})         & IstanteInizio $\rightarrow$ Intervallo.IstanteInizio, IstanteFine $\rightarrow$ Intervallo.IstanteFine                                                                         \\
+		\hline
+		Luogo(Nome, \underline{X}, \underline{Y}, \underline{Mappa})                                         & Mappa $\rightarrow$ Mappa.Codice                                                                                                                                               \\
+		\hline
+		Mappa(\underline{Codice}, Nome, Immagine, Larghezza, Altezza)                                        & -                                                                                                                                                                              \\
+		\hline
+		Evento(\underline{Codice}, Nome, Veridicità)                                                         & -                                                                                                                                                                              \\
+		\hline
+		Mascheramento(\underline{Personaggio}, \underline{Alias})                                            & Personaggio $\rightarrow$ Agente.Codice, Alias $\rightarrow$ Agente.Codice                                                                                                     \\
+		\hline
+		Chi(\underline{Evento}, \underline{Agente})                                                          & Evento $\rightarrow$ Evento.Codice, Agente $\rightarrow$ Agente.Codice                                                                                                         \\
+		\hline
+		Quando(\underline{Evento}, \underline{IstanteInizio}, \underline{IstanteFine})                       & Evento $\rightarrow$ Evento.Codice, IstanteInizio $\rightarrow$ Intervallo.IstanteInizio, IstanteFine $\rightarrow$ Intervallo.IstanteFine                                     \\
+		\hline
+		Dove(\underline{Evento}, \underline{X}, \underline{Y}, \underline{Mappa})                            & Evento $\rightarrow$ Evento.Codice, X $\rightarrow$ Luogo.X, Y $\rightarrow$ Luogo.Y, Mappa $\rightarrow$ Luogo.Mappa                                                          \\
+		\hline
+		Credenza(\underline{Evento}, \underline{Agente}, \underline{IstanteInizio}, \underline{IstanteFine}) & Evento $\rightarrow$ Evento.Codice, Agente $\rightarrow$ Agente.Codice, IstanteInizio $\rightarrow$ Intervallo.IstanteInizio, IstanteFine $\rightarrow$ Intervallo.IstanteFine \\
 		\hline
 	\end{tabular}\end{center}
 
